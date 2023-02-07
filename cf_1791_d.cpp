@@ -1,38 +1,42 @@
 // 2023-02-03
 // Codeforces Round #849 (Div. 4)
 // Problem D
-// !! ain't solved
+// !! ain't solved during the contest
 
+// #include <algorithm>
 #include <iostream>
 #include <string>
-#include <algorithm>
+#include <set>
+
+int count_unique(std::string str)
+{
+    std::set<char> checker(str.begin(), str.end());
+    return checker.size();
+}
 
 void solve()
 {
-    int len, unique_chars_cnt = 1;
-    std::string inp, substr;
+    int len, max = 0, cur;
+    std::string inp;
     std::cin >> len >> inp;
-    int substr_len = 1;
-    while(unique_chars_cnt == substr_len++ && (substr_len < len - 1))
+    for (int i = 1; i < len; ++i)
     {
-        substr = inp.substr(0, substr_len-1);
-        std::sort(substr.begin(), substr.end());
-        unique_chars_cnt = unique(substr.begin(), substr.end()) - substr.begin();
-        // ++substr_len;
+        cur = count_unique(inp.substr(0, i)) + count_unique(inp.substr(i));
+        if (cur > max)
+        {
+            max = cur;
+        }
+        // max = (cur > max) * cur + !(cur > max) * max;
     }
-    
-    // --substr_len;
-    substr_len = substr.length();
-    substr = inp.substr(substr_len);
-    std::sort(substr.begin(), substr.end());
-    unique_chars_cnt = unique(substr.begin(), substr.end()) - substr.begin();
-    std::cout << substr_len << ' ' << unique_chars_cnt << '\n';
+
+    std::cout << max << '\n';
 }
 
 int main()
 {
     int t;
     std::cin >> t;
+    // scanf("%d", &t);
     while(t--) solve();
     return 0;
 }
